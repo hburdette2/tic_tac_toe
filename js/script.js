@@ -27,6 +27,7 @@ let turn, winner, gameboard;
 // We need to cache element references
 
 const squares = document.querySelectorAll('.square');
+const message = document.getElementById('message');
 
 //Define our process
 
@@ -41,19 +42,35 @@ function init() {
     winner = false; //we don't have a winner - starting from zero
     turn = 1; // KEY[]
     gameboard = [null, null, null, null, null, null, null, null, null];
-}
-
-function handleClick(evt){
-    const selectedIndex = parseInt(evt.target.dataset.index); 
-    gameboard[selectedIndex] = turn;
-    turn *= -1;
     render();
 }
+
+
+
+function handleClick(evt){
+    const selectedIndex = parseInt(evt.target.dataset.index);
+    if(gameboard[selectedIndex]) return;
+    gameboard[selectedIndex] = turn;
+    turn *= -1;
+    winner = checkWinner();
+    console.log(winner);
+    render();
+}
+
+function checkWinner(){
+    for(let i = 0; i < COMBOS.length; i++){
+        if(Math.abs(gameboard[COMBOS[i][0]] + 
+                    gameboard[COMBOS[i][1]] + 
+                    gameboard[COMBOS[i][2]] === 3)) return gameboard[COMBOS[i][0]];
+        if(gameboard.includes(null)) return false;
+        return 'T';
+}}
 
 function render(){
     gameboard.forEach(function(elem, index){
         squares[index].textContent = KEY[elem];
     });
-    
-    render();
+    message.textContent = `${KEY[turn]}'s Turn`;
+  
 }
+    render();
