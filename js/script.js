@@ -21,8 +21,8 @@ const KEY = {
     'null': ''
 };
 
-let turn, winner, gameboard;
 
+let turn, winner, gameboard;
 
 // We need to cache element references
 
